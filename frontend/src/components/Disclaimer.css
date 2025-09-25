@@ -1,0 +1,11 @@
+.disclaimer {
+  margin: 20px auto;
+  max-width: 600px;   /* same as ResultsDisplay */
+  background: #2a2f4a;
+  color: #ffcc00;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ffcc00;
+  text-align: left;   /* align text with results */
+}

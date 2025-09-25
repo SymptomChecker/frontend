@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a0f1f;
+  color: #fff;
+}
+
+.app-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.app-title {
+  font-size: 2.5rem;
+  color: #00e0ff;
+  text-shadow: 0 0 10px #00e0ff;
+}
+
+.app-subtitle {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.processing {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #00e0ff;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
