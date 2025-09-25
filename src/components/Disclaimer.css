@@ -1,0 +1,18 @@
+.disclaimer-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffeeba; /* Light yellow background */
+    border: 1px solid #ffc107; /* Darker yellow border */
+    border-radius: 8px;
+    color: #856404; /* Dark yellow text */
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  
+  .disclaimer-container p {
+    margin: 0;
+  }
+  
+  .disclaimer-container strong {
+    color: #6a4f03; /* Even darker yellow for strong text */
+  }
