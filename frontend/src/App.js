@@ -4,7 +4,7 @@ import SymptomInput from "./components/SymptomInput";
 import ResultsDisplay from "./components/ResultsDisplay";
 import Disclaimer from "./components/Disclaimer";
 
-function App() {
+export default function App() {  // <-- Make sure you use default export
   const [symptoms, setSymptoms] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,12 +19,13 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ symptoms }),
       });
-      
 
       const data = await response.json();
+      console.log("API response:", data); // <-- DEBUG
       setResults(data.results || []);
     } catch (error) {
       console.error("Error fetching results:", error);
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -55,5 +56,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

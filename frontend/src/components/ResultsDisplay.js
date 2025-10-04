@@ -1,8 +1,8 @@
 import React from "react";
 import "./ResultsDisplay.css";
 
-function ResultsDisplay({ results }) {
-  if (!results.length) return null;
+export default function ResultsDisplay({ results }) {
+  if (!results || results.length === 0) return null;
 
   return (
     <div className="results-container">
@@ -23,5 +23,3 @@ function ResultsDisplay({ results }) {
     </div>
   );
 }
-
-export default ResultsDisplay;
