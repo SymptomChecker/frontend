@@ -58,4 +58,36 @@
   .consult-btn:hover {
     background: #0056b3;
   }
+  .toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #007aff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    animation: fadeInOut 3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
   

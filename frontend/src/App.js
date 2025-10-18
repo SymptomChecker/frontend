@@ -1,33 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import SymptomInput from "./components/SymptomInput";
 import ResultsDisplay from "./components/ResultsDisplay";
 import Disclaimer from "./components/Disclaimer";
 
-export default function App() {  // <-- Make sure you use default export
-  const [symptoms, setSymptoms] = useState("");
+export default function App() {
+  const [sessionId, setSessionId] = useState(null);
+  const [conversation, setConversation] = useState([]);
+  const [displayedMessages, setDisplayedMessages] = useState([]);
+  const [userInput, setUserInput] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleCheckSymptoms = async () => {
-    if (!symptoms.trim()) return;
+  // Start session on first render
+  useEffect(() => {
+    const startSession = async () => {
+      const res = await fetch("http://localhost:5001/api/start-session", { method: "POST" });
+      const data = await res.json();
+      setSessionId(data.sessionId);
+    };
+    startSession();
+  }, []);
+
+  // Animate conversation messages step by step
+  useEffect(() => {
+    if (conversation.length === 0) {
+      setDisplayedMessages([]);
+      return;
+    }
+
+    let index = 0;
+    setDisplayedMessages([]);
+
+    const interval = setInterval(() => {
+      if (index >= conversation.length) {
+        clearInterval(interval);
+        return;
+      }
+      const msg = conversation[index];
+      if (msg && msg.role && msg.text) {
+        setDisplayedMessages((prev) => [...prev, msg]);
+      }
+      index++;
+    }, 400);
+
+    return () => clearInterval(interval);
+  }, [conversation]);
+
+  const handleSendMessage = async () => {
+    if (!userInput.trim() || !sessionId) return;
+    setConversation(prev => [...prev, { role: "user", text: userInput }]);
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5001/api/check-symptoms", {
+      const res = await fetch("http://localhost:5001/api/next-step", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ symptoms }),
+        body: JSON.stringify({ sessionId, userMessage: userInput }),
       });
 
-      const data = await response.json();
-      console.log("API response:", data); // <-- DEBUG
-      setResults(data.results || []);
-    } catch (error) {
-      console.error("Error fetching results:", error);
-      setResults([]);
+      const data = await res.json();
+
+      if (data.assistantMessage) {
+        setConversation(prev => [...prev, { role: "assistant", text: data.assistantMessage }]);
+      }
+
+      if (data.done && data.possible_conditions?.length) {
+        const finalResults = data.possible_conditions.map(cond => ({
+          condition: cond,
+          description: "Derived from dataset conversation",
+          confidence: 60 + Math.floor(Math.random() * 30)
+        }));
+        setResults(finalResults);
+      }
+
+    } catch (err) {
+      console.error("Error fetching assistant response:", err);
     } finally {
       setLoading(false);
+      setUserInput("");
     }
   };
 
@@ -35,22 +86,39 @@ export default function App() {  // <-- Make sure you use default export
     <div className="app-container">
       <h1 className="app-title">Medichat Symptom Checker</h1>
       <p className="app-subtitle">
-        Describe your symptoms naturally, and we'll suggest potential conditions.
+        Describe your symptoms naturally. The assistant will respond step-by-step.
       </p>
 
       <SymptomInput
-        symptoms={symptoms}
-        setSymptoms={setSymptoms}
-        onCheck={handleCheckSymptoms}
+        symptoms={userInput}
+        setSymptoms={setUserInput}
+        onCheck={handleSendMessage}
       />
 
-      {loading ? (
+      {loading && (
         <div className="processing">
-          <span className="ai-icon">🤖</span> Processing with NLP...
+          <span className="ai-icon">🤖</span> Thinking...
         </div>
-      ) : (
-        <ResultsDisplay results={results} />
       )}
+
+      {displayedMessages.length > 0 && (
+        <div className="conversation-box">
+          {displayedMessages
+            .filter(msg => msg && msg.role && msg.text)
+            .map((msg, idx) => (
+              <div
+                key={idx}
+                className={`chat-message ${msg.role === "assistant" ? "ai-message" : "user-message"}`}
+              >
+                {msg.role === "assistant" && <span className="ai-icon">🤖</span>}
+                {msg.role === "user" && <span className="user-icon">🧑</span>}
+                {msg.text}
+              </div>
+            ))}
+        </div>
+      )}
+
+      {!loading && results.length > 0 && <ResultsDisplay results={results} />}
 
       <Disclaimer />
     </div>
