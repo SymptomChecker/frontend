@@ -33,3 +33,14 @@ body {
   50% { opacity: 1; }
   100% { opacity: 0.4; }
 }
+.results-label {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #333;
+  margin: 20px 0 10px 5px;
+  background-color: #fff9c4;
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  z-index: 1; /* ensure it’s above other layers */
+}

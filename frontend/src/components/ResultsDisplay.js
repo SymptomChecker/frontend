@@ -73,7 +73,7 @@ export default function ResultsDisplay({ results }) {
           {/* 🇫🇮 Finland guideline section */}
           {guidelines[res.condition] && (
             <div className="guideline-box">
-              <strong>🇫🇮 Finland Guideline:</strong>
+              <strong>🇫🇮 Finnish Guideline:</strong>
               <p>{guidelines[res.condition]}</p>
             </div>
           )}
