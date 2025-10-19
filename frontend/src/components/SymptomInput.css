@@ -1,34 +1,60 @@
 .symptom-input-container {
-    margin: 20px auto;
-    max-width: 600px;
-  }
-  
-  .symptom-textarea {
-    width: 100%;
-    height: 120px;
-    background: #101630;
-    color: #fff;
-    border: 2px solid #00e0ff;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 1rem;
-    resize: none;
-  }
-  
-  .check-btn {
-    margin-top: 10px;
-    width: 100%;
-    background: #00e0ff;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .check-btn:hover {
-    background: #00aacc;
-  }
-  
+  position: relative; /* enable absolute positioning for mic */
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.symptom-textarea {
+  width: 100%;
+  height: 120px;
+  background: #101630;
+  color: #fff;
+  border: 2px solid #00e0ff;
+  border-radius: 8px;
+  padding: 10px 40px 10px 10px; /* space for mic icon on right */
+  font-size: 1rem;
+  resize: none;
+}
+
+.check-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #00e0ff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.check-btn:hover {
+  background: #00aacc;
+}
+
+/* 🎤 Mic icon styling */
+.mic-icon {
+  position: absolute;
+  bottom: 35px; /* inside textarea */
+  right: 15px;
+  width: 28px;
+  height: 28px;
+  background-color: #00e0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.mic-icon:hover {
+  background-color: #00aacc;
+}
+
+.mic-icon svg {
+  fill: #000;
+  width: 16px;
+  height: 16px;
+}
